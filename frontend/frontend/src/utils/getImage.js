@@ -1,4 +1,4 @@
-const BACKEND_URL = "http://localhost:5000";
+const BACKEND_URL = "https://samadhan-2-hnc3.onrender.com";
 
 // Map of common farm product keywords to reliable Unsplash image URLs
 const imageMap = {

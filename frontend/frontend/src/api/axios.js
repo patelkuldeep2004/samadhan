@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "http://localhost:5000",
+  baseURL: "https://samadhan-2-hnc3.onrender.com",
 });
 
 API.interceptors.request.use((req) => {
