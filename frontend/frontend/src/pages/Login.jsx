@@ -59,62 +59,71 @@ function Login() {
 
   return (
     <div className="bg-light min-vh-100 d-flex align-items-center justify-content-center py-5">
-      <div style={{ maxWidth: "400px", width: "100%", padding: "0 20px" }}>
-        <h2 className="text-center mb-4 fw-bold text-success">Login</h2>
+      <div style={{ maxWidth: "420px", width: "100%", padding: "0 20px" }}>
+        
+        {/* Logo */}
+        <div className="text-center mb-4 fade-in-down">
+          <img src="/logo.png" alt="Samadhan" style={{ width: '80px', height: '80px', borderRadius: '16px', marginBottom: '12px' }} />
+          <h2 className="fw-bold" style={{ letterSpacing: '2px', fontSize: '1.6rem' }}>Welcome Back</h2>
+          <p style={{ color: '#64748b', fontSize: '14px' }}>Sign in to your Samadhan account</p>
+        </div>
 
-        {error && (
-          <div className="alert alert-danger alert-dismissible fade show" role="alert">
-            {error}
-            <button type="button" className="btn-close" onClick={() => setError(null)}></button>
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit}>
-          <div className="mb-3">
-            <label className="form-label fw-bold">Email</label>
-            <input
-              type="email"
-              className="form-control"
-              placeholder="Enter your email"
-              value={form.email}
-              onChange={(e) => setForm({ ...form, email: e.target.value })}
-              required
-            />
-          </div>
-
-          <div className="mb-3">
-            <label className="form-label fw-bold">Password</label>
-            <input
-              type="password"
-              className="form-control"
-              placeholder="Enter your password"
-              value={form.password}
-              onChange={(e) => setForm({ ...form, password: e.target.value })}
-              required
-            />
-          </div>
-
-          <div className="d-flex justify-content-between align-items-center mb-3">
-            <div></div>
-            <Link to="/forgot-password" className="text-success text-decoration-none">
-              Forgot Password?
-            </Link>
-          </div>
-
-          <button type="submit" className="btn btn-success w-100 fw-bold" disabled={loading}>
-            {loading ? (
-              <>
-                <span className="spinner-border spinner-border-sm me-2"></span>
-                Logging in...
-              </>
-            ) : (
-              "Login"
+        <div className="card shadow-lg border-0 fade-in-up" style={{ borderRadius: '16px' }}>
+          <div className="card-body p-4">
+            {error && (
+              <div className="alert alert-danger alert-dismissible fade show" role="alert">
+                {error}
+                <button type="button" className="btn-close" onClick={() => setError(null)}></button>
+              </div>
             )}
-          </button>
-        </form>
 
-        <p className="mt-3 text-center">
-          Don't have an account? <Link to="/register" className="text-success fw-bold">Register here</Link>
+            <form onSubmit={handleSubmit}>
+              <div className="mb-3">
+                <label className="form-label fw-bold" style={{ fontSize: '13px' }}>Email</label>
+                <input
+                  type="email"
+                  className="form-control form-control-lg"
+                  placeholder="Enter your email"
+                  value={form.email}
+                  onChange={(e) => setForm({ ...form, email: e.target.value })}
+                  required
+                />
+              </div>
+
+              <div className="mb-3">
+                <label className="form-label fw-bold" style={{ fontSize: '13px' }}>Password</label>
+                <input
+                  type="password"
+                  className="form-control form-control-lg"
+                  placeholder="Enter your password"
+                  value={form.password}
+                  onChange={(e) => setForm({ ...form, password: e.target.value })}
+                  required
+                />
+              </div>
+
+              <div className="d-flex justify-content-end mb-3">
+                <Link to="/forgot-password" className="text-decoration-none" style={{ color: 'var(--primary)', fontSize: '13px', fontWeight: 600 }}>
+                  Forgot Password?
+                </Link>
+              </div>
+
+              <button type="submit" className="btn btn-success btn-lg w-100 fw-bold" disabled={loading} style={{ borderRadius: '12px' }}>
+                {loading ? (
+                  <>
+                    <span className="spinner-border spinner-border-sm me-2" style={{ width: '1rem', height: '1rem' }}></span>
+                    Logging in...
+                  </>
+                ) : (
+                  "Sign In"
+                )}
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <p className="mt-4 text-center fade-in-up delay-2" style={{ fontSize: '14px' }}>
+          Don't have an account? <Link to="/register" style={{ color: 'var(--primary)', fontWeight: 700, textDecoration: 'none' }}>Register here</Link>
         </p>
       </div>
     </div>

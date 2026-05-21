@@ -14,6 +14,14 @@ const Review = sequelize.define('Review', {
   },
   reviewerEmail: {
     type: DataTypes.STRING
+  },
+  userId: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
+  productId: {
+    type: DataTypes.INTEGER,
+    allowNull: false
   }
 });
 

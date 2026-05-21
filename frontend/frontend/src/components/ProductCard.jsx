@@ -1,39 +1,18 @@
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { CartContext } from "../context/CartContext";
+import { getProductImage } from "../utils/getImage";
 
 function ProductCard({ product }) {
   const navigate = useNavigate();
   const { addToCart } = useContext(CartContext);
 
-  const handleImageError = (e) => {
-    e.target.src = `https://picsum.photos/seed/${encodeURIComponent(product.title)}/300/200.jpg`;
-  };
-
-  const getImageUrl = (imgLink) => {
-    if (!imgLink) {
-      return `https://picsum.photos/seed/${encodeURIComponent(product.title)}/300/200.jpg`;
-    }
-    
-    if (imgLink.startsWith('uploads/')) {
-      return `http://localhost:3000/${imgLink}`;
-    }
-    
-    if (imgLink.startsWith('http')) {
-      const separator = imgLink.includes('?') ? '&' : '?';
-      return `${imgLink}${separator}t=${Date.now()}`;
-    }
-    
-    return imgLink;
-  };
-
   return (
     <div className="card h-100 border-0 shadow-sm">
-      <img
-        src={getImageUrl(product.img_link)}
+      <img 
+        src={getProductImage(product.title, product.img_link)} 
         alt={product.title}
         className="card-img-top"
-        onError={handleImageError}
         style={{ height: "200px", objectFit: "cover" }}
       />
       <div className="card-body d-flex flex-column">

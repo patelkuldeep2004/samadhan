@@ -31,6 +31,7 @@ router.get('/:id', getProductById);
 
 router.put('/:id', 
   authMiddleware,
+  upload.single('image'),
   updateProduct
 );
 

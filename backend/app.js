@@ -52,11 +52,10 @@ app.use('/user', userRoutes);
 app.use('/product', productRoutes);
 app.use('/category', categoryRoutes);
 app.use('/review', reviewRoutes);
-app.use("/api/products", productRoutes);
 
 sequelize.authenticate()
   .then(() => {
-    return sequelize.sync({ force: false, alter: false });
+    return sequelize.sync({ alter: true });
   })
   .then(() => {
     const PORT = process.env.PORT || 5000;

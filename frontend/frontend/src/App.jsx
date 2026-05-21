@@ -10,6 +10,7 @@ import AddProduct from "./pages/AddProduct";
 import ProductDetails from "./pages/ProductDetails";
 import Cart from "./pages/Cart";
 import SellerDashboard from "./pages/SellerDashboard";
+import UserDashboard from "./pages/UserDashboard";
 
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -37,6 +38,7 @@ function App() {
       <Routes>
         {!user ? (
           <>
+            <Route path="/" element={<Login />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
@@ -49,6 +51,7 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/product/:id" element={<ProductDetails />} />
                 <Route path="/cart" element={<Cart />} />
+                <Route path="/dashboard" element={<UserDashboard />} />
                 <Route path="*" element={<Navigate to="/" />} />
               </>
             )}
@@ -57,6 +60,7 @@ function App() {
               <>
                 <Route path="/" element={<SellerDashboard />} />
                 <Route path="/seller-dashboard" element={<SellerDashboard />} />
+                <Route path="/dashboard" element={<UserDashboard />} />
                 <Route path="/add-product" element={<AddProduct />} />
                 <Route path="/product/:id" element={<ProductDetails />} />
                 <Route path="*" element={<Navigate to="/" />} />

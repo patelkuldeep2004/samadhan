@@ -30,9 +30,10 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
-  if (isLoading) {
-    return null;
-  }
+  // Don't return null - let children handle loading state
+  // if (isLoading) {
+  //   return null;
+  // }
 
   return (
     <AuthContext.Provider value={{ user, login, logout, isLoading }}>

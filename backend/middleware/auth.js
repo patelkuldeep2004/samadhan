@@ -13,7 +13,7 @@ const authMiddleware = async (req, res, next) => {
       ? authHeader.split(" ")[1]
       : authHeader;
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'secret123');
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     const user = await User.findByPk(decoded.id);
     

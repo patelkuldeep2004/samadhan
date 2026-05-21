@@ -34,8 +34,9 @@ const upload = multer({
 
 export const createProduct = async (req, res) => {
   try {
-    if (!req.user || req.user.role !== 'seller') {
-      return res.status(403).json({ message: "Only sellers can add products" });
+    // Allow both sellers and buyers to create products
+    if (!req.user) {
+      return res.status(403).json({ message: "You must be logged in to add products" });
     }
 
     const { title, price, categoryId, product_desc, stock } = req.body;
@@ -116,8 +117,9 @@ export const getProductById = async (req, res) => {
 
 export const updateProduct = async (req, res) => {
   try {
-    if (!req.user || req.user.role !== 'seller') {
-      return res.status(403).json({ message: "Only sellers can update products" });
+    // Allow both sellers and buyers to update their own products
+    if (!req.user) {
+      return res.status(403).json({ message: "You must be logged in to update products" });
     }
 
     const product = await Product.findByPk(req.params.id);
@@ -130,7 +132,14 @@ export const updateProduct = async (req, res) => {
       return res.status(403).json({ message: "You can only update your own products" });
     }
 
-    await product.update(req.body);
+    const updateData = { ...req.body };
+    
+    // Handle image upload
+    if (req.file) {
+      updateData.img_link = `uploads/${req.file.filename}`;
+    }
+
+    await product.update(updateData);
     res.json(product);
 
   } catch (err) {
@@ -141,8 +150,9 @@ export const updateProduct = async (req, res) => {
 
 export const deleteProduct = async (req, res) => {
   try {
-    if (!req.user || req.user.role !== 'seller') {
-      return res.status(403).json({ message: "Only sellers can delete products" });
+    // Allow both sellers and buyers to delete their own products
+    if (!req.user) {
+      return res.status(403).json({ message: "You must be logged in to delete products" });
     }
 
     const product = await Product.findByPk(req.params.id);

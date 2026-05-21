@@ -20,7 +20,7 @@ export const signup = async (req, res) => {
       role: role || 'buyer'
     });
 
-    const token = jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET || 'secret123');
+    const token = jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET);
 
     res.status(201).json({ 
       message: "User created successfully", 
@@ -54,7 +54,7 @@ export const login = async (req, res) => {
       return res.status(400).json({ message: "Wrong password" });
     }
 
-    const token = jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET || 'secret123');
+    const token = jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET);
 
     res.json({ 
       message: "Login success", 

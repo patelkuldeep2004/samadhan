@@ -16,7 +16,7 @@ function AddProduct() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
-  const { user } = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const categories = [
@@ -61,16 +61,14 @@ function AddProduct() {
 
     try {
       const formData = new FormData();
-      formData.append('image', imageFile);
+      if (imageFile) {
+        formData.append('image', imageFile);
+      }
       formData.append('title', form.title);
       formData.append('price', parseFloat(form.price));
       formData.append('categoryId', parseInt(form.categoryId));
       formData.append('product_desc', form.product_desc);
       formData.append('stock', parseInt(form.stock) || 0);
-
-      console.log("Sending product data with image:");
-      console.log("Token present:", !!localStorage.getItem("token"));
-      console.log("User data:", user);
 
       const response = await API.post("/product", formData, {
         headers: {
@@ -84,23 +82,31 @@ function AddProduct() {
       setImageFile(null);
       setImagePreview(null);
       setTimeout(() => {
-        navigate("/seller-dashboard");
+        navigate("/dashboard");
       }, 1500);
     } catch (err) {
       console.error("Error adding product:", err);
       console.error("Error response:", err.response?.data);
+      
+      if (err.response?.status === 401 || err.response?.data?.message === "User not found") {
+        alert("Your session has expired or your account was not found. Please log in again.");
+        logout();
+        navigate("/login");
+        return;
+      }
+      
       setError(err.response?.data?.message || err.response?.data?.error || "Failed to add product. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
-  if (!user || user.role !== "seller") {
+  if (!user) {
     return (
       <div className="bg-light min-vh-100 d-flex align-items-center">
         <div className="container">
           <div className="alert alert-warning text-center">
-            Only sellers can add products!
+            You must be logged in to add products!
           </div>
         </div>
       </div>
@@ -114,7 +120,8 @@ function AddProduct() {
           <div className="col-12 col-md-8 col-lg-6">
             <div className="card shadow-lg border-0">
               <div className="card-body p-5">
-                <h2 className="card-title text-center mb-4 fw-bold text-success">Add New Product</h2>
+                <h2 className="card-title text-center mb-4 fw-bold text-success">📸 Add New Product</h2>
+                <p className="text-center text-muted mb-4">Share your product with buyers</p>
 
                 {error && (
                   <div className="alert alert-danger alert-dismissible fade show" role="alert">
@@ -198,18 +205,9 @@ function AddProduct() {
                       accept="image/*"
                       onChange={handleImageUpload}
                     />
-                    <small className="text-muted d-block mt-2">
-                      Upload an image file (JPG, PNG, GIF - Max 5MB). If not provided, a placeholder image will be used.
-                    </small>
-                    
                     {imagePreview && (
-                      <div className="mt-3">
-                        <p className="small fw-bold mb-2">Preview:</p>
-                        <img 
-                          src={imagePreview} 
-                          alt="Preview" 
-                          style={{ maxWidth: "100%", maxHeight: "200px", objectFit: "cover", borderRadius: "5px" }}
-                        />
+                      <div className="mt-3 text-center">
+                        <img src={imagePreview} alt="Preview" className="img-thumbnail" style={{ maxHeight: '200px' }} />
                       </div>
                     )}
                   </div>

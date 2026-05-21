@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { CartContext } from "../context/CartContext";
 import { Link } from "react-router-dom";
+import { getProductImage } from "../utils/getImage";
 
 function Cart() {
   const {
@@ -70,16 +71,13 @@ function Cart() {
                       <div className="row align-items-center">
                         <div className="col-sm-2 mb-3 mb-sm-0">
                           <img
-                            src={item.img_link || item.imageUrl}
+                            src={getProductImage(item.title, item.img_link)}
                             alt={item.title}
                             className="img-fluid rounded"
                             style={{
                               height: "80px",
                               objectFit: "cover",
                               width: "100%"
-                            }}
-                            onError={(e) => {
-                              e.target.src = "https://via.placeholder.com/80?text=" + encodeURIComponent(item.title);
                             }}
                           />
                         </div>

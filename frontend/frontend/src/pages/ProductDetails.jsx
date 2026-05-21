@@ -2,6 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import API from "../api/axios";
 import { CartContext } from "../context/CartContext";
+import { getProductImage } from "../utils/getImage";
 
 function ProductDetails() {
   const { id } = useParams();
@@ -74,12 +75,9 @@ function ProductDetails() {
           <div className="col-lg-5">
             <div className="card border-0 shadow-sm">
               <img
-                src={product.img_link}
+                src={getProductImage(product.title, product.img_link)}
                 alt={product.title}
                 className="card-img-top"
-                onError={(e) => {
-                  e.target.src = `https://picsum.photos/seed/${encodeURIComponent(product.title)}/400x300.jpg`;
-                }}
                 style={{ height: "350px", objectFit: "cover" }}
               />
             </div>
